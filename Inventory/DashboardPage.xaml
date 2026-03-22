@@ -1,0 +1,140 @@
+﻿<Page x:Class="Inventory.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#F1F5F9">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="32">
+
+            <!-- Header -->
+            <TextBlock Text="Dashboard"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="#1E293B"
+                       Margin="0,0,0,4"/>
+
+            <TextBlock Text="Welcome back, Admin 👋"
+                       FontSize="14"
+                       Foreground="#64748B"
+                       Margin="0,0,0,32"/>
+
+            <!-- Summary Cards -->
+            <UniformGrid Rows="1" Columns="4" Margin="0,0,0,32">
+
+                <!-- Total Stocks -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Margin="0,0,16,0"
+                        Padding="24">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="📦"
+                                   FontSize="32"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="Total Stocks"
+                                   FontSize="13"
+                                   Foreground="#64748B"/>
+                        <TextBlock x:Name="txtTotalStocks"
+                                   Text="0"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#1E293B"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock Text="Items in inventory"
+                                   FontSize="11"
+                                   Foreground="#94A3B8"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Pending Requests -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Margin="0,0,16,0"
+                        Padding="24">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="📋"
+                                   FontSize="32"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="Pending Requests"
+                                   FontSize="13"
+                                   Foreground="#64748B"/>
+                        <TextBlock x:Name="txtPendingRequests"
+                                   Text="0"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#F59E0B"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock Text="Awaiting approval"
+                                   FontSize="11"
+                                   Foreground="#94A3B8"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Total Returns -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Margin="0,0,16,0"
+                        Padding="24">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="↩️"
+                                   FontSize="32"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="Total Returns"
+                                   FontSize="13"
+                                   Foreground="#64748B"/>
+                        <TextBlock x:Name="txtTotalReturns"
+                                   Text="0"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#3B82F6"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock Text="Items returned"
+                                   FontSize="11"
+                                   Foreground="#94A3B8"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Low Stock Alert -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Margin="0"
+                        Padding="24">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="⚠️"
+                                   FontSize="32"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="Low Stock Alert"
+                                   FontSize="13"
+                                   Foreground="#64748B"/>
+                        <TextBlock x:Name="txtLowStock"
+                                   Text="0"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#EF4444"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock Text="Items running low"
+                                   FontSize="11"
+                                   Foreground="#94A3B8"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+            </UniformGrid>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
