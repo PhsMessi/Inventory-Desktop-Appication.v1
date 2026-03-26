@@ -4,7 +4,8 @@
         Title="Inventory System"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
-        Background="#F1F5F9">
+        Background="#F1F5F9"
+        >
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,8 +23,10 @@
                 <!-- Logo Area -->
                 <StackPanel DockPanel.Dock="Top"
                             Margin="0,32,0,32">
-                    <TextBlock Text="📦"
-                               FontSize="36"
+
+                    <Image Source="inventory.png"
+                               Width="60"
+                               Height="60"
                                HorizontalAlignment="Center"/>
                     <TextBlock Text="Inventory"
                                FontSize="18"

@@ -6,6 +6,21 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>inventory.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="inventory.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="inventory.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="inventory.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
 
 </Project>

@@ -7,21 +7,53 @@
         <StackPanel Margin="32">
 
             <!-- Header -->
-            <TextBlock Text="Dashboard"
-                       FontSize="26"
-                       FontWeight="Bold"
-                       Foreground="#1E293B"
-                       Margin="0,0,0,4"/>
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Welcome back, Admin 👋"
-                       FontSize="14"
-                       Foreground="#64748B"
-                       Margin="0,0,0,32"/>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Dashboard"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="#1E293B"/>
+                    <TextBlock Text="Welcome back, Admin 👋"
+                               FontSize="14"
+                               Foreground="#64748B"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Week Label -->
+                <Border Grid.Column="1"
+                        Background="White"
+                        CornerRadius="8"
+                        BorderBrush="#E2E8F0"
+                        BorderThickness="1"
+                        Padding="16,8"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🗓️ "
+                                   FontSize="13"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="txtWeekRange"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E293B"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <TextBlock Text="This week's summary"
+                       FontSize="12"
+                       Foreground="#94A3B8"
+                       Margin="0,0,0,28"/>
 
             <!-- Summary Cards -->
-            <UniformGrid Rows="1" Columns="4" Margin="0,0,0,32">
+            <UniformGrid Rows="1" Columns="4" Margin="0,0,0,0">
 
-                <!-- Total Stocks -->
+                <!-- New Stocks Added -->
                 <Border Background="White"
                         CornerRadius="12"
                         Margin="0,0,16,0"
@@ -30,47 +62,26 @@
                         <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
                     </Border.Effect>
                     <StackPanel>
-                        <TextBlock Text="📦"
-                                   FontSize="32"
-                                   Margin="0,0,0,12"/>
-                        <TextBlock Text="Total Stocks"
+                        <Border Background="#EFF6FF"
+                                CornerRadius="8"
+                                Width="44" Height="44"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="📦"
+                                       FontSize="22"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="New Stocks"
                                    FontSize="13"
                                    Foreground="#64748B"/>
-                        <TextBlock x:Name="txtTotalStocks"
+                        <TextBlock x:Name="txtNewStocks"
                                    Text="0"
                                    FontSize="36"
                                    FontWeight="Bold"
                                    Foreground="#1E293B"
                                    Margin="0,4,0,0"/>
-                        <TextBlock Text="Items in inventory"
-                                   FontSize="11"
-                                   Foreground="#94A3B8"
-                                   Margin="0,4,0,0"/>
-                    </StackPanel>
-                </Border>
-
-                <!-- Pending Requests -->
-                <Border Background="White"
-                        CornerRadius="12"
-                        Margin="0,0,16,0"
-                        Padding="24">
-                    <Border.Effect>
-                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
-                    </Border.Effect>
-                    <StackPanel>
-                        <TextBlock Text="📋"
-                                   FontSize="32"
-                                   Margin="0,0,0,12"/>
-                        <TextBlock Text="Pending Requests"
-                                   FontSize="13"
-                                   Foreground="#64748B"/>
-                        <TextBlock x:Name="txtPendingRequests"
-                                   Text="0"
-                                   FontSize="36"
-                                   FontWeight="Bold"
-                                   Foreground="#F59E0B"
-                                   Margin="0,4,0,0"/>
-                        <TextBlock Text="Awaiting approval"
+                        <TextBlock Text="Added this week"
                                    FontSize="11"
                                    Foreground="#94A3B8"
                                    Margin="0,4,0,0"/>
@@ -86,9 +97,16 @@
                         <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
                     </Border.Effect>
                     <StackPanel>
-                        <TextBlock Text="↩️"
-                                   FontSize="32"
-                                   Margin="0,0,0,12"/>
+                        <Border Background="#F0FDF4"
+                                CornerRadius="8"
+                                Width="44" Height="44"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="↩️"
+                                       FontSize="22"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
                         <TextBlock Text="Total Returns"
                                    FontSize="13"
                                    Foreground="#64748B"/>
@@ -96,16 +114,51 @@
                                    Text="0"
                                    FontSize="36"
                                    FontWeight="Bold"
-                                   Foreground="#3B82F6"
+                                   Foreground="#16A34A"
                                    Margin="0,4,0,0"/>
-                        <TextBlock Text="Items returned"
+                        <TextBlock Text="Returned this week"
                                    FontSize="11"
                                    Foreground="#94A3B8"
                                    Margin="0,4,0,0"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Low Stock Alert -->
+                <!-- Pending Requests -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Margin="0,0,16,0"
+                        Padding="24">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <Border Background="#FFFBEB"
+                                CornerRadius="8"
+                                Width="44" Height="44"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="📋"
+                                       FontSize="22"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Pending Requests"
+                                   FontSize="13"
+                                   Foreground="#64748B"/>
+                        <TextBlock x:Name="txtPendingRequests"
+                                   Text="0"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#F59E0B"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock Text="Awaiting this week"
+                                   FontSize="11"
+                                   Foreground="#94A3B8"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Defective Items -->
                 <Border Background="White"
                         CornerRadius="12"
                         Margin="0"
@@ -114,19 +167,26 @@
                         <DropShadowEffect Color="#CCCCCC" BlurRadius="10" ShadowDepth="1"/>
                     </Border.Effect>
                     <StackPanel>
-                        <TextBlock Text="⚠️"
-                                   FontSize="32"
-                                   Margin="0,0,0,12"/>
-                        <TextBlock Text="Low Stock Alert"
+                        <Border Background="#FEF2F2"
+                                CornerRadius="8"
+                                Width="44" Height="44"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="⚠️"
+                                       FontSize="22"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="Defective Items"
                                    FontSize="13"
                                    Foreground="#64748B"/>
-                        <TextBlock x:Name="txtLowStock"
+                        <TextBlock x:Name="txtDefectiveItems"
                                    Text="0"
                                    FontSize="36"
                                    FontWeight="Bold"
                                    Foreground="#EF4444"
                                    Margin="0,4,0,0"/>
-                        <TextBlock Text="Items running low"
+                        <TextBlock Text="Reported this week"
                                    FontSize="11"
                                    Foreground="#94A3B8"
                                    Margin="0,4,0,0"/>

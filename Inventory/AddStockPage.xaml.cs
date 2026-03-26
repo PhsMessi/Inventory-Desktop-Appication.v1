@@ -44,22 +44,23 @@ namespace Inventory
 
             var newItem = new StockItem
             {
+                SerialNumber = StocksPage.StockList.Count + 1,
                 ItemName = txtItemName.Text.Trim(),
                 Category = txtCategory.Text.Trim(),
                 Quantity = qty,
-                Description = txtDescription.Text.Trim()
+                Description = txtDescription.Text.Trim(),
+                DateAdded = System.DateTime.Now.ToString("MM/dd/yyyy")
             };
 
-            // Edit mode
             if (Tag is StockItem existing)
             {
                 int index = StocksPage.StockList.IndexOf(existing);
+                newItem.SerialNumber = existing.SerialNumber;
                 StocksPage.StockList[index] = newItem;
                 txtSuccess.Text = "✅ Stock item updated successfully!";
             }
             else
             {
-                // Add mode
                 StocksPage.StockList.Add(newItem);
                 txtSuccess.Text = "✅ Stock item added successfully!";
                 ClearFields();

@@ -7,6 +7,8 @@
         <Grid.RowDefinitions>
             <!-- Header -->
             <RowDefinition Height="Auto"/>
+            <!-- Tabs -->
+            <RowDefinition Height="Auto"/>
             <!-- Toolbar -->
             <RowDefinition Height="Auto"/>
             <!-- Table -->
@@ -24,9 +26,225 @@
                        Foreground="#64748B"
                        Margin="0,4,0,0"/>
         </StackPanel>
+        
+        <!-- Category Tabs -->
+        <Border Grid.Row="1"
+        Background="White"
+        CornerRadius="8"
+        BorderBrush="#E2E8F0"
+        BorderThickness="1"
+        Padding="6"
+        Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal">
 
+                <Button x:Name="tabAll" Content="All"
+                Tag="All" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="#0F172A" Foreground="#F8FAFC">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabCameras" Content="Cameras"
+                Tag="Cameras" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabDVR" Content="DVR"
+                Tag="DVR" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabNVR" Content="NVR"
+                Tag="NVR" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabPOE" Content="POE"
+                Tag="POE" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabHDD" Content="HDD"
+                Tag="HDD" Click="TabButton_Click"
+                Margin="0,0,4,0" Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="tabAdaptor" Content="Adaptor"
+                Tag="Adaptor" Click="TabButton_Click"
+                Padding="16,8"
+                FontSize="13" FontWeight="SemiBold"
+                BorderThickness="0" Cursor="Hand"
+                Background="Transparent" Foreground="#64748B">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="tabBorder"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tabBorder" Property="Background" Value="#F1F5F9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+        </Border>
         <!-- Toolbar -->
-        <Grid Grid.Row="1" Margin="0,0,0,16">
+        <Grid Grid.Row="2" Margin="0,0,0,16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -75,7 +293,7 @@
         </Grid>
 
         <!-- Table -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="3"
                 Background="White"
                 CornerRadius="12"
                 Padding="0">
@@ -129,72 +347,14 @@
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
+                    <!-- Serial Number -->
+                    <DataGridTextColumn Header="Serial #" Binding="{Binding SerialNumber}" Width="80"/>
                     <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"/>
                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
                     <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
-                    <!-- Actions Column -->
-                    <DataGridTemplateColumn Header="Actions" Width="160">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Button Content="✏️ Edit"
-                                            Tag="{Binding}"
-                                            Click="btnEdit_Click"
-                                            Margin="0,0,8,0"
-                                            Padding="12,4"
-                                            FontSize="12"
-                                            Foreground="#3B82F6"
-                                            Background="#EFF6FF"
-                                            BorderThickness="0"
-                                            Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border Background="{TemplateBinding Background}"
-                                                                    CornerRadius="6"
-                                                                    Padding="{TemplateBinding Padding}">
-                                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                                  VerticalAlignment="Center"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                    <Button Content="🗑️ Delete"
-                                            Tag="{Binding}"
-                                            Click="btnDelete_Click"
-                                            Padding="12,4"
-                                            FontSize="12"
-                                            Foreground="#EF4444"
-                                            Background="#FEF2F2"
-                                            BorderThickness="0"
-                                            Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border Background="{TemplateBinding Background}"
-                                                                    CornerRadius="6"
-                                                                    Padding="{TemplateBinding Padding}">
-                                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                                  VerticalAlignment="Center"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Warranty" Binding="{Binding Warranty}" Width="110"/>
+                    <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}" Width="130"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
