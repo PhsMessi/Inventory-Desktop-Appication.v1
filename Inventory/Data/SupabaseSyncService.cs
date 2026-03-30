@@ -29,14 +29,31 @@ namespace Inventory.Data
         }
 
         // ===== CHECK INTERNET =====
+        //public async Task<bool> IsOnlineAsync()
+        //{
+        //    try
+        //    {
+        //        using var client = new HttpClient();
+        //        client.Timeout = TimeSpan.FromSeconds(5);
+        //        var response = await client.GetAsync("https://www.google.com");
+        //        return response.IsSuccessStatusCode;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+
         public async Task<bool> IsOnlineAsync()
         {
             try
             {
                 using var client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(5);
-                var response = await client.GetAsync("https://www.google.com");
-                return response.IsSuccessStatusCode;
+                client.Timeout = TimeSpan.FromSeconds(10);
+                // Use Supabase directly instead of Google for faster response
+                var response = await client.GetAsync($"{_baseUrl}/rest/v1/");
+                return response.IsSuccessStatusCode ||
+                       response.StatusCode == System.Net.HttpStatusCode.Unauthorized;
             }
             catch
             {

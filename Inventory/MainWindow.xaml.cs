@@ -19,6 +19,17 @@ namespace Inventory
             StartSyncTimer();
         }
 
+        //private void StartSyncTimer()
+        //{
+        //    _syncTimer = new DispatcherTimer();
+        //    _syncTimer.Interval = TimeSpan.FromMinutes(2);
+        //    _syncTimer.Tick += async (s, e) => await RunSyncAsync();
+        //    _syncTimer.Start();
+
+        //    // Run once on startup
+        //    Loaded += async (s, e) => await RunSyncAsync();
+        //}
+
         private void StartSyncTimer()
         {
             _syncTimer = new DispatcherTimer();
@@ -26,8 +37,15 @@ namespace Inventory
             _syncTimer.Tick += async (s, e) => await RunSyncAsync();
             _syncTimer.Start();
 
-            // Run once on startup
-            Loaded += async (s, e) => await RunSyncAsync();
+            // Delay first sync by 5 seconds to let app fully load
+            var startupTimer = new DispatcherTimer();
+            startupTimer.Interval = TimeSpan.FromSeconds(5);
+            startupTimer.Tick += async (s, e) =>
+            {
+                startupTimer.Stop();
+                await RunSyncAsync();
+            };
+            startupTimer.Start();
         }
 
         private async System.Threading.Tasks.Task RunSyncAsync()
