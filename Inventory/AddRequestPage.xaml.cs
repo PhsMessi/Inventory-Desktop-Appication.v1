@@ -16,17 +16,17 @@ namespace Inventory
             txtError.Text = "";
             txtSuccess.Text = "";
 
-            if (string.IsNullOrWhiteSpace(txtItemName.Text) ||
+            if (string.IsNullOrWhiteSpace(txtRequestedItems.Text) ||
                 string.IsNullOrWhiteSpace(txtRequestedBy.Text) ||
                 string.IsNullOrWhiteSpace(txtQuantity.Text))
             {
-                txtError.Text = " Please fill in all required fields.";
+                txtError.Text = "⚠️ Please fill in all required fields.";
                 return;
             }
 
             if (!int.TryParse(txtQuantity.Text, out int qty))
             {
-                txtError.Text = "Quantity must be a valid number.";
+                txtError.Text = "⚠️ Quantity must be a valid number.";
                 return;
             }
 
@@ -34,14 +34,14 @@ namespace Inventory
 
             RequestsPage.RequestList.Add(new RequestItem
             {
-                ItemName = txtItemName.Text.Trim(),
+                RequestedItems = txtRequestedItems.Text.Trim(),
                 RequestedBy = txtRequestedBy.Text.Trim(),
                 Quantity = qty,
                 Date = DateTime.Now.ToString("MM/dd/yyyy"),
                 Status = status
             });
 
-            txtSuccess.Text = "✅ Request added successfully!";
+            txtSuccess.Text = "✅ Request submitted successfully!";
             ClearFields();
         }
 
@@ -54,7 +54,7 @@ namespace Inventory
 
         private void ClearFields()
         {
-            txtItemName.Text = "";
+            txtRequestedItems.Text = "";
             txtRequestedBy.Text = "";
             txtQuantity.Text = "";
             cmbStatus.SelectedIndex = 0;

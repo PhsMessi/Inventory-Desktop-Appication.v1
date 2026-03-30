@@ -34,9 +34,6 @@ namespace Inventory
                 case "AddStock":
                     MainFrame.Navigate(new AddStockPage());
                     break;
-                case "AddRequest":
-                    MainFrame.Navigate(new AddRequestPage());
-                    break;
                 case "AddReturn":
                     MainFrame.Navigate(new AddReturnPage());
                     break;

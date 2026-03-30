@@ -10,45 +10,63 @@ namespace Inventory
             InitializeComponent();
         }
 
-        // Constructor for Edit mode
+        // Edit mode constructor
         public AddStockPage(StockItem existing)
         {
             InitializeComponent();
-            txtItemName.Text = existing.ItemName;
-            txtCategory.Text = existing.Category;
-            txtQuantity.Text = existing.Quantity.ToString();
-            txtDescription.Text = existing.Description;
-            btnSave.Content = "✅ Update Stock";
-            // Store reference for editing
+            btnSave.Content = "Update Stock";
+
+            txtSerialNumber.Text = existing.SerialNumber.ToString();
+            txtModelNumber.Text = existing.ModelNumber;
+            txtProductName.Text = existing.ItemName;
+            txtAddedBy.Text = existing.AddedBy;
+
+            foreach (ComboBoxItem item in cmbCategory.Items)
+            {
+                if (item.Content.ToString() == existing.Category)
+                {
+                    cmbCategory.SelectedItem = item;
+                    break;
+                }
+            }
+
+            foreach (ComboBoxItem item in cmbWarranty.Items)
+            {
+                if (item.Content.ToString() == existing.Warranty)
+                {
+                    cmbWarranty.SelectedItem = item;
+                    break;
+                }
+            }
+
             Tag = existing;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            txtError.Text = "";
-            txtSuccess.Text = "";
+            HideMessages();
 
-            if (string.IsNullOrWhiteSpace(txtItemName.Text) ||
-                string.IsNullOrWhiteSpace(txtCategory.Text) ||
-                string.IsNullOrWhiteSpace(txtQuantity.Text))
+            if (string.IsNullOrWhiteSpace(txtSerialNumber.Text) ||
+                string.IsNullOrWhiteSpace(txtModelNumber.Text) ||
+                string.IsNullOrWhiteSpace(txtProductName.Text) ||
+                cmbCategory.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(txtAddedBy.Text))
             {
-                txtError.Text = "⚠️ Please fill in all required fields.";
+                ShowError("Please fill in all required fields.");
                 return;
             }
 
-            if (!int.TryParse(txtQuantity.Text, out int qty))
-            {
-                txtError.Text = "⚠️ Quantity must be a valid number.";
-                return;
-            }
+            var category = (cmbCategory.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "";
+            var warranty = (cmbWarranty.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "1 Year";
 
             var newItem = new StockItem
             {
                 SerialNumber = StocksPage.StockList.Count + 1,
-                ItemName = txtItemName.Text.Trim(),
-                Category = txtCategory.Text.Trim(),
-                Quantity = qty,
-                Description = txtDescription.Text.Trim(),
+                ModelNumber = txtModelNumber.Text.Trim(),
+                ItemName = txtProductName.Text.Trim(),
+                Category = category,
+                AddedBy = txtAddedBy.Text.Trim(),
+                Warranty = warranty,
                 DateAdded = System.DateTime.Now.ToString("MM/dd/yyyy")
             };
 
@@ -56,13 +74,14 @@ namespace Inventory
             {
                 int index = StocksPage.StockList.IndexOf(existing);
                 newItem.SerialNumber = existing.SerialNumber;
+                newItem.DateAdded = existing.DateAdded;
                 StocksPage.StockList[index] = newItem;
-                txtSuccess.Text = "✅ Stock item updated successfully!";
+                ShowSuccess("Stock item updated successfully!");
             }
             else
             {
                 StocksPage.StockList.Add(newItem);
-                txtSuccess.Text = "✅ Stock item added successfully!";
+                ShowSuccess("Stock item added successfully!");
                 ClearFields();
             }
         }
@@ -70,16 +89,37 @@ namespace Inventory
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             ClearFields();
-            txtError.Text = "";
-            txtSuccess.Text = "";
+            HideMessages();
         }
 
         private void ClearFields()
         {
-            txtItemName.Text = "";
-            txtCategory.Text = "";
-            txtQuantity.Text = "";
-            txtDescription.Text = "";
+            txtSerialNumber.Text = "";
+            txtModelNumber.Text = "";
+            txtProductName.Text = "";
+            cmbCategory.SelectedIndex = -1;
+            txtAddedBy.Text = "";
+            cmbWarranty.SelectedIndex = 2;
+        }
+
+        private void ShowError(string message)
+        {
+            txtError.Text = "⚠️ " + message;
+            errorBorder.Visibility = Visibility.Visible;
+            successBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSuccess(string message)
+        {
+            txtSuccess.Text = "✅ " + message;
+            successBorder.Visibility = Visibility.Visible;
+            errorBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void HideMessages()
+        {
+            errorBorder.Visibility = Visibility.Collapsed;
+            successBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

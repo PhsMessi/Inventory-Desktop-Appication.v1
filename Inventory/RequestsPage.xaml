@@ -6,7 +6,6 @@
     <Grid Margin="32">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -16,87 +15,14 @@
                        FontSize="26"
                        FontWeight="Bold"
                        Foreground="#1E293B"/>
-            <TextBlock Text="Manage stock requests"
+            <TextBlock Text="View and manage stock requests"
                        FontSize="14"
                        Foreground="#64748B"
                        Margin="0,4,0,0"/>
         </StackPanel>
 
-        <!-- Toolbar -->
-        <Grid Grid.Row="1" Margin="0,0,0,16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Search -->
-            <Border Background="White"
-                    CornerRadius="8"
-                    BorderBrush="#CBD5E1"
-                    BorderThickness="1"
-                    Padding="12,0"
-                    Grid.Column="0"
-                    Margin="0,0,12,0">
-                <TextBox x:Name="txtSearch"
-                         Height="38"
-                         BorderThickness="0"
-                         FontSize="13"
-                         VerticalContentAlignment="Center"
-                         TextChanged="txtSearch_TextChanged">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Style.Resources>
-                                <VisualBrush x:Key="HintBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
-                                    <VisualBrush.Visual>
-                                        <TextBlock Text="🔍  Search requests..."
-                                                   Foreground="#94A3B8"
-                                                   FontSize="13"/>
-                                    </VisualBrush.Visual>
-                                </VisualBrush>
-                            </Style.Resources>
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="">
-                                    <Setter Property="Background" Value="{StaticResource HintBrush}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-            </Border>
-
-            <!-- Add Request Button -->
-            <Button Grid.Column="1"
-                    Content="+ Add Request"
-                    Height="38"
-                    Padding="20,0"
-                    FontSize="13"
-                    FontWeight="SemiBold"
-                    Foreground="White"
-                    Background="#3B82F6"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="btnAddRequest_Click">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            CornerRadius="8"
-                                            Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </Grid>
-
         <!-- Table -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="1"
                 Background="White"
                 CornerRadius="12">
             <Border.Effect>
@@ -115,7 +41,7 @@
                       AlternatingRowBackground="#F8FAFC"
                       FontSize="13"
                       ColumnHeaderHeight="44"
-                      RowHeight="44"
+                      RowHeight="60"
                       SelectionMode="Single">
 
                 <DataGrid.ColumnHeaderStyle>
@@ -136,7 +62,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="DataGridCell">
-                                    <Border Padding="16,0"
+                                    <Border Padding="16,10"
                                             Background="{TemplateBinding Background}">
                                         <ContentPresenter VerticalAlignment="Center"/>
                                     </Border>
@@ -147,11 +73,37 @@
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"/>
-                    <DataGridTextColumn Header="Requested By" Binding="{Binding RequestedBy}" Width="150"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="120"/>
-                    <!-- Status Column -->
+
+                    <!-- Requested Items -->
+                    <DataGridTemplateColumn Header="Requested Items" Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RequestedItems}"
+                                           TextWrapping="Wrap"
+                                           FontSize="13"
+                                           Foreground="#1E293B"
+                                           Padding="0,8"
+                                           MaxWidth="400"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Requested By -->
+                    <DataGridTextColumn Header="Requested By"
+                                        Binding="{Binding RequestedBy}"
+                                        Width="180"/>
+
+                    <!-- Quantity -->
+                    <DataGridTextColumn Header="Quantity"
+                                        Binding="{Binding Quantity}"
+                                        Width="90"/>
+
+                    <!-- Date -->
+                    <DataGridTextColumn Header="Date"
+                                        Binding="{Binding Date}"
+                                        Width="120"/>
+
+                    <!-- Status -->
                     <DataGridTemplateColumn Header="Status" Width="130">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -191,68 +143,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!-- Actions -->
-                    <DataGridTemplateColumn Header="Actions" Width="180">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Button Content="✅ Complete"
-                                            Tag="{Binding}"
-                                            Click="btnComplete_Click"
-                                            Margin="0,0,8,0"
-                                            Padding="10,4"
-                                            FontSize="12"
-                                            Foreground="#16A34A"
-                                            Background="#DCFCE7"
-                                            BorderThickness="0"
-                                            Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border Background="{TemplateBinding Background}"
-                                                                    CornerRadius="6"
-                                                                    Padding="{TemplateBinding Padding}">
-                                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                                  VerticalAlignment="Center"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                    <Button Content="🗑️ Delete"
-                                            Tag="{Binding}"
-                                            Click="btnDelete_Click"
-                                            Padding="10,4"
-                                            FontSize="12"
-                                            Foreground="#EF4444"
-                                            Background="#FEF2F2"
-                                            BorderThickness="0"
-                                            Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border Background="{TemplateBinding Background}"
-                                                                    CornerRadius="6"
-                                                                    Padding="{TemplateBinding Padding}">
-                                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                                  VerticalAlignment="Center"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+
                 </DataGrid.Columns>
             </DataGrid>
         </Border>

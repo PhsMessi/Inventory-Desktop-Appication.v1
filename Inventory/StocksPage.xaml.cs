@@ -8,10 +8,10 @@ namespace Inventory
     public class StockItem
     {
         public int SerialNumber { get; set; }
+        public string ModelNumber { get; set; }
         public string ItemName { get; set; }
         public string Category { get; set; }
-        public int Quantity { get; set; }
-        public string Description { get; set; }
+        public string AddedBy { get; set; }
         public string Warranty { get; set; }
         public string DateAdded { get; set; }
     }
@@ -72,9 +72,10 @@ namespace Inventory
                     StockList.Where(s => s.Category.Equals(_activeTab, System.StringComparison.OrdinalIgnoreCase)));
 
             var filtered = source.Where(s =>
-                s.ItemName.ToLower().Contains(keyword) ||
-                s.Category.ToLower().Contains(keyword) ||
-                s.Description.ToLower().Contains(keyword));
+            s.ItemName.ToLower().Contains(keyword) ||
+            s.Category.ToLower().Contains(keyword) ||
+            s.ModelNumber.ToLower().Contains(keyword) ||
+            s.AddedBy.ToLower().Contains(keyword));
 
             dgStocks.ItemsSource = new ObservableCollection<StockItem>(filtered);
         }

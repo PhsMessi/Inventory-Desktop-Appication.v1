@@ -348,13 +348,14 @@
 
                 <DataGrid.Columns>
                     <!-- Serial Number -->
-                    <DataGridTextColumn Header="Serial #" Binding="{Binding SerialNumber}" Width="80"/>
-                    <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"/>
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
+                    <DataGridTextColumn Header="#" Binding="{Binding SerialNumber}" Width="55"/>
+                    <DataGridTextColumn Header="Serial Number" Binding="{Binding SerialNumber}" Width="130"/>
+                    <DataGridTextColumn Header="Model Number" Binding="{Binding ModelNumber}" Width="130"/>
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding ItemName}" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="110"/>
+                    <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy}" Width="130"/>
                     <DataGridTextColumn Header="Warranty" Binding="{Binding Warranty}" Width="110"/>
-                    <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}" Width="130"/>
+                    <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}" Width="110"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>

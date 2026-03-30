@@ -12,7 +12,7 @@
                        FontWeight="Bold"
                        Foreground="#1E293B"
                        Margin="0,0,0,4"/>
-            <TextBlock Text="Fill in the details to add a new request"
+            <TextBlock Text="Fill in the details to submit a new request"
                        FontSize="14"
                        Foreground="#64748B"
                        Margin="0,0,0,32"/>
@@ -29,51 +29,104 @@
 
                 <StackPanel>
 
-                    <!-- Item Name -->
-                    <TextBlock Text="Item Name *" FontSize="12" FontWeight="SemiBold"
-                               Foreground="#475569" Margin="0,0,0,6"/>
-                    <TextBox x:Name="txtItemName" Height="42" Padding="12,10"
-                             FontSize="13" BorderBrush="#CBD5E1" BorderThickness="1"
-                             Background="#F8FAFC" Margin="0,0,0,18"/>
+                    <!-- Requested Items -->
+                    <TextBlock Text="Requested Items *"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#475569"
+                               Margin="0,0,0,6"/>
+                    <TextBlock Text="List all items separated by comma (e.g. IP Camera x2, NVR 8ch, POE)"
+                               FontSize="11"
+                               Foreground="#94A3B8"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtRequestedItems"
+                             Height="90"
+                             Padding="12,10"
+                             FontSize="13"
+                             BorderBrush="#CBD5E1"
+                             BorderThickness="1"
+                             Background="#F8FAFC"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,18"/>
 
                     <!-- Requested By -->
-                    <TextBlock Text="Requested By *" FontSize="12" FontWeight="SemiBold"
-                               Foreground="#475569" Margin="0,0,0,6"/>
-                    <TextBox x:Name="txtRequestedBy" Height="42" Padding="12,10"
-                             FontSize="13" BorderBrush="#CBD5E1" BorderThickness="1"
-                             Background="#F8FAFC" Margin="0,0,0,18"/>
+                    <TextBlock Text="Requested By *"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#475569"
+                               Margin="0,0,0,6"/>
+                    <TextBlock Text="Enter full name and position (e.g. Technical Engr. Edcel)"
+                               FontSize="11"
+                               Foreground="#94A3B8"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtRequestedBy"
+                             Height="42"
+                             Padding="12,10"
+                             FontSize="13"
+                             BorderBrush="#CBD5E1"
+                             BorderThickness="1"
+                             Background="#F8FAFC"
+                             Margin="0,0,0,18"/>
 
                     <!-- Quantity -->
-                    <TextBlock Text="Quantity *" FontSize="12" FontWeight="SemiBold"
-                               Foreground="#475569" Margin="0,0,0,6"/>
-                    <TextBox x:Name="txtQuantity" Height="42" Padding="12,10"
-                             FontSize="13" BorderBrush="#CBD5E1" BorderThickness="1"
-                             Background="#F8FAFC" Margin="0,0,0,18"/>
+                    <TextBlock Text="Total Quantity *"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#475569"
+                               Margin="0,0,0,6"/>
+                    <TextBlock Text="Total number of items requested"
+                               FontSize="11"
+                               Foreground="#94A3B8"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtQuantity"
+                             Height="42"
+                             Padding="12,10"
+                             FontSize="13"
+                             BorderBrush="#CBD5E1"
+                             BorderThickness="1"
+                             Background="#F8FAFC"
+                             Margin="0,0,0,18"/>
 
                     <!-- Status -->
-                    <TextBlock Text="Status *" FontSize="12" FontWeight="SemiBold"
-                               Foreground="#475569" Margin="0,0,0,6"/>
-                    <ComboBox x:Name="cmbStatus" Height="42" Padding="12,10"
-                              FontSize="13" BorderBrush="#CBD5E1" BorderThickness="1"
-                              Background="#F8FAFC" Margin="0,0,0,24">
+                    <TextBlock Text="Status *"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="#475569"
+                               Margin="0,0,0,6"/>
+                    <ComboBox x:Name="cmbStatus"
+                              Height="42"
+                              Padding="12,10"
+                              FontSize="13"
+                              BorderBrush="#CBD5E1"
+                              BorderThickness="1"
+                              Background="#F8FAFC"
+                              Margin="0,0,0,24">
                         <ComboBoxItem Content="Pending" IsSelected="True"/>
                         <ComboBoxItem Content="Completed"/>
                     </ComboBox>
 
                     <!-- Error -->
-                    <TextBlock x:Name="txtError" Text="" Foreground="#EF4444"
-                               FontSize="12" Margin="0,0,0,12"/>
+                    <TextBlock x:Name="txtError"
+                               Text=""
+                               Foreground="#EF4444"
+                               FontSize="12"
+                               Margin="0,0,0,12"/>
 
                     <!-- Success -->
-                    <TextBlock x:Name="txtSuccess" Text="" Foreground="#22C55E"
-                               FontSize="12" Margin="0,0,0,12"/>
+                    <TextBlock x:Name="txtSuccess"
+                               Text=""
+                               Foreground="#22C55E"
+                               FontSize="12"
+                               Margin="0,0,0,12"/>
 
                     <!-- Buttons -->
                     <StackPanel Orientation="Horizontal">
                         <Button Content="✅ Save Request"
                                 Height="42" Padding="24,0"
                                 FontSize="13" FontWeight="SemiBold"
-                                Foreground="White" Background="#3B82F6"
+                                Foreground="White" Background="#0F172A"
                                 BorderThickness="0" Cursor="Hand"
                                 Margin="0,0,12,0"
                                 Click="btnSave_Click">
@@ -83,7 +136,8 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
-                                                        CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                        CornerRadius="8"
+                                                        Padding="{TemplateBinding Padding}">
                                                     <ContentPresenter HorizontalAlignment="Center"
                                                                       VerticalAlignment="Center"/>
                                                 </Border>
@@ -106,7 +160,8 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
-                                                        CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                        CornerRadius="8"
+                                                        Padding="{TemplateBinding Padding}">
                                                     <ContentPresenter HorizontalAlignment="Center"
                                                                       VerticalAlignment="Center"/>
                                                 </Border>
