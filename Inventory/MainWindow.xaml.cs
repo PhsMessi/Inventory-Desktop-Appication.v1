@@ -1,15 +1,64 @@
-﻿using System.Windows;
+﻿using Inventory.Data;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Inventory
 {
     public partial class MainWindow : Window
     {
+        private readonly SupabaseSyncService _sync = new SupabaseSyncService();
+        private DispatcherTimer _syncTimer;
+
         public MainWindow()
         {
             InitializeComponent();
-            // Load Dashboard by default
             MainFrame.Navigate(new DashboardPage());
+            StartSyncTimer();
+        }
+
+        private void StartSyncTimer()
+        {
+            _syncTimer = new DispatcherTimer();
+            _syncTimer.Interval = TimeSpan.FromMinutes(2);
+            _syncTimer.Tick += async (s, e) => await RunSyncAsync();
+            _syncTimer.Start();
+
+            // Run once on startup
+            Loaded += async (s, e) => await RunSyncAsync();
+        }
+
+        private async System.Threading.Tasks.Task RunSyncAsync()
+        {
+            try
+            {
+                txtSyncStatus.Text = "Syncing...";
+                txtSyncDot.Foreground = new SolidColorBrush(
+                    (Color)ColorConverter.ConvertFromString("#F59E0B"));
+
+                var result = await _sync.SyncAllAsync();
+
+                if (result.IsOnline)
+                {
+                    txtSyncStatus.Text = "Synced";
+                    txtSyncDot.Foreground = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#22C55E"));
+                }
+                else
+                {
+                    txtSyncStatus.Text = "Offline";
+                    txtSyncDot.Foreground = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#EF4444"));
+                }
+            }
+            catch
+            {
+                txtSyncStatus.Text = "Sync Failed";
+                txtSyncDot.Foreground = new SolidColorBrush(
+                    (Color)ColorConverter.ConvertFromString("#EF4444"));
+            }
         }
 
         private void NavButton_Click(object sender, RoutedEventArgs e)
@@ -42,6 +91,7 @@ namespace Inventory
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
+            _syncTimer?.Stop();
             LoginWindow login = new LoginWindow();
             login.Show();
             this.Close();
