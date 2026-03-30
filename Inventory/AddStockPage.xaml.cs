@@ -1,48 +1,41 @@
-﻿using System.Windows;
+﻿using Inventory.Data;
+using Inventory.Models;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Inventory
 {
     public partial class AddStockPage : Page
     {
+        private readonly DatabaseService _db = new DatabaseService();
+
         public AddStockPage()
         {
             InitializeComponent();
         }
 
-        // Edit mode constructor
         public AddStockPage(StockItem existing)
         {
             InitializeComponent();
             btnSave.Content = "Update Stock";
-
-            txtSerialNumber.Text = existing.SerialNumber.ToString();
+            txtSerialNumber.Text = existing.SerialNumber;
             txtModelNumber.Text = existing.ModelNumber;
             txtProductName.Text = existing.ItemName;
             txtAddedBy.Text = existing.AddedBy;
 
             foreach (ComboBoxItem item in cmbCategory.Items)
-            {
                 if (item.Content.ToString() == existing.Category)
-                {
-                    cmbCategory.SelectedItem = item;
-                    break;
-                }
-            }
+                { cmbCategory.SelectedItem = item; break; }
 
             foreach (ComboBoxItem item in cmbWarranty.Items)
-            {
                 if (item.Content.ToString() == existing.Warranty)
-                {
-                    cmbWarranty.SelectedItem = item;
-                    break;
-                }
-            }
+                { cmbWarranty.SelectedItem = item; break; }
 
             Tag = existing;
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             HideMessages();
 
@@ -59,30 +52,67 @@ namespace Inventory
             var category = (cmbCategory.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "";
             var warranty = (cmbWarranty.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "1 Year";
 
-            var newItem = new StockItem
+            try
             {
-                SerialNumber = StocksPage.StockList.Count + 1,
-                ModelNumber = txtModelNumber.Text.Trim(),
-                ItemName = txtProductName.Text.Trim(),
-                Category = category,
-                AddedBy = txtAddedBy.Text.Trim(),
-                Warranty = warranty,
-                DateAdded = System.DateTime.Now.ToString("MM/dd/yyyy")
-            };
+                if (Tag is StockItem existing)
+                {
+                    // Edit mode — update in DB
+                    var entity = new StockEntity
+                    {
+                        Id = existing.Id,
+                        SerialNumber = txtSerialNumber.Text.Trim(),
+                        ModelNumber = txtModelNumber.Text.Trim(),
+                        ProductName = txtProductName.Text.Trim(),
+                        Category = category,
+                        AddedBy = txtAddedBy.Text.Trim(),
+                        Warranty = warranty,
+                        DateAdded = DateTime.Parse(existing.DateAdded),
+                        IsSynced = false
+                    };
+                    await _db.UpdateStockAsync(entity);
+                    ShowSuccess("Stock item updated successfully!");
+                }
+                else
+                {
+                    // Add mode — insert to DB
+                    var entity = new StockEntity
+                    {
+                        SerialNumber = txtSerialNumber.Text.Trim(),
+                        ModelNumber = txtModelNumber.Text.Trim(),
+                        ProductName = txtProductName.Text.Trim(),
+                        Category = category,
+                        AddedBy = txtAddedBy.Text.Trim(),
+                        Warranty = warranty,
+                        DateAdded = DateTime.Today,
+                        IsSynced = false
+                    };
+                    await _db.AddStockAsync(entity);
+                    ShowSuccess("Stock item added successfully!");
+                    ClearFields();
+                }
 
-            if (Tag is StockItem existing)
-            {
-                int index = StocksPage.StockList.IndexOf(existing);
-                newItem.SerialNumber = existing.SerialNumber;
-                newItem.DateAdded = existing.DateAdded;
-                StocksPage.StockList[index] = newItem;
-                ShowSuccess("Stock item updated successfully!");
+                // Reload stocks list
+                var stocks = await _db.GetAllStocksAsync();
+                StocksPage.StockList.Clear();
+                foreach (var s in stocks)
+                {
+                    StocksPage.StockList.Add(new StockItem
+                    {
+                        Id = s.Id,
+                        SerialNumber = s.SerialNumber,
+                        ModelNumber = s.ModelNumber,
+                        ItemName = s.ProductName,
+                        Category = s.Category,
+                        AddedBy = s.AddedBy,
+                        Warranty = s.Warranty,
+                        DateAdded = s.DateAdded.ToString("MM/dd/yyyy"),
+                        IsSynced = s.IsSynced
+                    });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                StocksPage.StockList.Add(newItem);
-                ShowSuccess("Stock item added successfully!");
-                ClearFields();
+                ShowError($"Database error: {ex.Message}");
             }
         }
 

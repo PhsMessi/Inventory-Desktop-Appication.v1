@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Inventory.Data;
+using Inventory.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,12 +8,14 @@ namespace Inventory
 {
     public partial class AddRequestPage : Page
     {
+        private readonly DatabaseService _db = new DatabaseService();
+
         public AddRequestPage()
         {
             InitializeComponent();
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             txtError.Text = "";
             txtSuccess.Text = "";
@@ -32,17 +36,44 @@ namespace Inventory
 
             var status = (cmbStatus.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Pending";
 
-            RequestsPage.RequestList.Add(new RequestItem
+            try
             {
-                RequestedItems = txtRequestedItems.Text.Trim(),
-                RequestedBy = txtRequestedBy.Text.Trim(),
-                Quantity = qty,
-                Date = DateTime.Now.ToString("MM/dd/yyyy"),
-                Status = status
-            });
+                var entity = new RequestEntity
+                {
+                    RequestedItems = txtRequestedItems.Text.Trim(),
+                    RequestedBy = txtRequestedBy.Text.Trim(),
+                    Quantity = qty,
+                    Date = DateTime.Today,
+                    Status = status,
+                    IsSynced = false
+                };
 
-            txtSuccess.Text = "✅ Request submitted successfully!";
-            ClearFields();
+                await _db.AddRequestAsync(entity);
+
+                // Reload requests list
+                var requests = await _db.GetAllRequestsAsync();
+                RequestsPage.RequestList.Clear();
+                foreach (var r in requests)
+                {
+                    RequestsPage.RequestList.Add(new RequestItem
+                    {
+                        Id = r.Id,
+                        RequestedItems = r.RequestedItems,
+                        RequestedBy = r.RequestedBy,
+                        Quantity = r.Quantity,
+                        Date = r.Date.ToString("MM/dd/yyyy"),
+                        Status = r.Status,
+                        IsSynced = r.IsSynced
+                    });
+                }
+
+                txtSuccess.Text = "✅ Request submitted successfully!";
+                ClearFields();
+            }
+            catch (Exception ex)
+            {
+                txtError.Text = $"⚠️ Database error: {ex.Message}";
+            }
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
