@@ -90,6 +90,124 @@ namespace Inventory.Data
             return result;
         }
 
+        // ===== PULL ALL FROM SUPABASE =====
+        public async Task<SyncResult> PullAllAsync()
+        {
+            var result = new SyncResult();
+
+            if (!await IsOnlineAsync())
+            {
+                result.Message = "Offline — pull skipped";
+                result.IsOnline = false;
+                return result;
+            }
+
+            result.IsOnline = true;
+
+            try
+            {
+                result.RequestsSynced = await PullRequestsAsync();
+                result.ReturnsSynced = await PullReturnsAsync();
+                result.Message = $"Pulled ✅ Requests: {result.RequestsSynced} | Returns: {result.ReturnsSynced}";
+            }
+            catch (Exception ex)
+            {
+                result.Message = $"Pull error: {ex.Message}";
+            }
+
+            return result;
+        }
+
+        // ===== PULL REQUESTS FROM SUPABASE =====
+        private async Task<int> PullRequestsAsync()
+        {
+            var url = $"{_baseUrl}/rest/v1/requests?select=*&order=created_at.desc";
+            var response = await _http.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode) return 0;
+
+            var json = await response.Content.ReadAsStringAsync();
+            var items = System.Text.Json.JsonSerializer.Deserialize<List<System.Text.Json.JsonElement>>(json);
+
+            if (items == null) return 0;
+
+            int count = 0;
+            using var db = new AppDbContext();
+
+            foreach (var item in items)
+            {
+                var id = Guid.Parse(item.GetProperty("id").GetString());
+
+                // Check if already exists locally
+                var exists = await db.Requests.FindAsync(id);
+                if (exists != null) continue;
+
+                // Insert new record from Supabase
+                var entity = new Inventory.Models.RequestEntity
+                {
+                    Id = id,
+                    RequestedItems = item.GetProperty("requested_items").GetString(),
+                    RequestedBy = item.GetProperty("requested_by").GetString(),
+                    Quantity = item.GetProperty("quantity").GetInt32(),
+                    Date = DateTime.Parse(item.GetProperty("date").GetString()),
+                    Status = item.GetProperty("status").GetString(),
+                    IsSynced = true,
+                    CreatedAt = DateTime.Parse(item.GetProperty("created_at").GetString())
+                };
+
+                db.Requests.Add(entity);
+                count++;
+            }
+
+            await db.SaveChangesAsync();
+            return count;
+        }
+
+        // ===== PULL RETURNS FROM SUPABASE =====
+        private async Task<int> PullReturnsAsync()
+        {
+            var url = $"{_baseUrl}/rest/v1/returns?select=*&order=created_at.desc";
+            var response = await _http.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode) return 0;
+
+            var json = await response.Content.ReadAsStringAsync();
+            var items = System.Text.Json.JsonSerializer.Deserialize<List<System.Text.Json.JsonElement>>(json);
+
+            if (items == null) return 0;
+
+            int count = 0;
+            using var db = new AppDbContext();
+
+            foreach (var item in items)
+            {
+                var id = Guid.Parse(item.GetProperty("id").GetString());
+
+                var exists = await db.Returns.FindAsync(id);
+                if (exists != null) continue;
+
+                var entity = new Inventory.Models.ReturnEntity
+                {
+                    Id = id,
+                    ItemName = item.GetProperty("item_name").GetString(),
+                    ReturnedBy = item.GetProperty("returned_by").GetString(),
+                    Quantity = item.GetProperty("quantity").GetInt32(),
+                    Reason = item.GetProperty("reason").GetString(),
+                    Date = DateTime.Parse(item.GetProperty("date").GetString()),
+                    Status = item.GetProperty("status").GetString(),
+                    IsSynced = true,
+                    CreatedAt = DateTime.Parse(item.GetProperty("created_at").GetString())
+                };
+
+                db.Returns.Add(entity);
+                count++;
+            }
+
+            await db.SaveChangesAsync();
+            return count;
+        }
+
+
         // ===== SYNC STOCKS =====
         private async Task<int> SyncStocksAsync()
         {

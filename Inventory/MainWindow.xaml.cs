@@ -56,9 +56,13 @@ namespace Inventory
                 txtSyncDot.Foreground = new SolidColorBrush(
                     (Color)ColorConverter.ConvertFromString("#F59E0B"));
 
-                var result = await _sync.SyncAllAsync();
+                // Push local changes to Supabase
+                var pushResult = await _sync.SyncAllAsync();
 
-                if (result.IsOnline)
+                // Pull new records from Supabase (from mobile app)
+                var pullResult = await _sync.PullAllAsync();
+
+                if (pushResult.IsOnline)
                 {
                     txtSyncStatus.Text = "Synced";
                     txtSyncDot.Foreground = new SolidColorBrush(
