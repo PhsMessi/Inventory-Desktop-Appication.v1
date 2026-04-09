@@ -57,5 +57,22 @@ namespace Inventory
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void dgRequests_DoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (dgRequests.SelectedItem is RequestItem selected)
+            {
+                var dialog = new RequestDetailWindow(selected);
+                dialog.ShowDialog();
+
+                // Refresh table if approved
+                if (dialog.WasApproved)
+                {
+                    selected.Status = "Completed";
+                    dgRequests.ItemsSource = null;
+                    dgRequests.ItemsSource = RequestsPage.RequestList;
+                }
+            }
+        }
     }
 }

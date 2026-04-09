@@ -33,6 +33,7 @@
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       IsReadOnly="True"
+                      MouseDoubleClick="dgRequests_DoubleClick"
                       GridLinesVisibility="Horizontal"
                       HeadersVisibility="Column"
                       BorderThickness="0"
