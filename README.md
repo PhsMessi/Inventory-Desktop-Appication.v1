@@ -1,108 +1,149 @@
-# Inventory Desktop Application v1
+# Inventory Management System
 
-A professional inventory management system built as a desktop-style web application, featuring real-time dashboards, full CRUD operations, data visualization, and Excel export.
+A desktop inventory management application built with WPF and .NET 8.0, designed to track CCTV and networking equipment. The system operates offline-first using a local SQL Server database, with Supabase as the cloud synchronization layer.
 
 ---
 
 ## Overview
 
-**Inventory Desktop Application v1** (ICTD) is a client-side inventory management system designed to help small businesses and departments track products, monitor stock levels, analyze sales trends, and manage transactions — all from a clean, responsive browser-based interface styled like a native desktop application.
-
-This project was built as a practical demonstration of front-end development skills, combining dynamic UI design, data visualization, and local data management.
-
----
-
-## Features
-
-- **Dashboard Overview** — Real-time summary cards displaying total products, low stock alerts, and overall inventory value
-- **Product Management** — Full CRUD (Create, Read, Update, Delete) operations for inventory items
-- **Data Visualization** — Interactive charts powered by Chart.js for stock trends and category breakdowns
-- **Smart Alerts** — SweetAlert2 dialogs for confirmation prompts and success/error feedback
-- **Excel Export** — Export inventory data to `.xlsx` format using SheetJS
-- **Search and Filter** — Quickly locate products by name, category, or stock status
-- **Sidebar Navigation** — Professional fixed sidebar layout with a clean, modern dark theme
-- **Responsive Layout** — Adapts across screen sizes using Bootstrap 5 grid system
+This application provides a centralized interface for managing physical inventory across equipment categories including Cameras, DVR, NVR, POE, HDD, and Adaptors. It is built for internal use in security systems and IT environments where reliable offline access is essential.
 
 ---
 
 ## Tech Stack
 
-| Technology        | Purpose                                          |
-|-------------------|--------------------------------------------------|
-| HTML5 / CSS3      | Structure and custom styling                     |
-| JavaScript        | Business logic and DOM manipulation              |
-| Bootstrap 5.3     | Responsive layout and UI components              |
-| Bootstrap Icons   | Icon library                                     |
-| Chart.js 4        | Data visualization (bar, line, doughnut charts)  |
-| SweetAlert2       | Alert and confirmation dialogs                   |
-| SheetJS (XLSX)    | Excel file export                                |
+| Layer | Technology |
+|---|---|
+| Framework | .NET 8.0, WPF (Windows Presentation Foundation) |
+| Language | C# |
+| Local Database | SQL Server (via SSMS) |
+| ORM | Entity Framework Core 8.0 |
+| Cloud Sync | Supabase (PostgreSQL, Singapore region) |
+| IDE | Visual Studio 2022 |
+
+---
+
+## Features
+
+- Secure login with role-based access
+- Dashboard with weekly summary cards (New Stocks, Total Returns, Pending Requests, Defective Items)
+- Stock management with category filtering and DataGrid views
+- Add, track, and manage stock items including serial number, model, warranty, and assigned staff
+- Request and return workflow management
+- Offline-first architecture with cloud sync support
 
 ---
 
 ## Project Structure
 
 ```
-Inventory-Desktop-Appication.v1/
-├── index.html          # Main application entry point
-├── script.css          # Custom styles and theme variables
-├── script.js           # Core application logic
-├── image.jpg           # Application favicon
-└── README.md
+Inventory/
+├── Data/
+│   ├── AppDbContext.cs
+│   └── DatabaseService.cs
+├── Models/
+│   ├── StockEntity.cs
+│   ├── RequestEntity.cs
+│   └── ReturnEntity.cs
+├── Views/
+│   ├── LoginWindow.xaml
+│   ├── MainWindow.xaml
+│   ├── StocksPage.xaml
+│   ├── AddStockPage.xaml
+│   ├── RequestsPage.xaml
+│   ├── AddRequestPage.xaml
+│   ├── ReturnsPage.xaml
+│   └── AddReturnPage.xaml
+└── Inventory.csproj
 ```
+
+---
+
+## Prerequisites
+
+- Windows OS
+- Visual Studio 2022
+- .NET 8.0 SDK
+- SQL Server (local instance via SSMS)
+- Internet connection for Supabase sync
 
 ---
 
 ## Getting Started
 
-No installation or build step is required. This is a pure front-end application.
+### 1. Clone the Repository
 
-### Prerequisites
+```bash
+git clone https://github.com/your-username/inventory.git
+cd inventory
+```
 
-- A modern web browser (Chrome, Edge, or Firefox)
-- [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VS Code (recommended)
+### 2. Configure the Local Database
 
-### Running Locally
+Open SQL Server Management Studio and ensure a database named `InventoryDB` exists on your local server instance. Update the connection string in `AppDbContext.cs` to match your server name if needed.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/PhsMessi/Inventory-Desktop-Appication.v1.git
-   ```
+```
+Server=YOUR_SERVER_NAME;Database=InventoryDB;Trusted_Connection=True;
+```
 
-2. Navigate into the project directory:
-   ```bash
-   cd Inventory-Desktop-Appication.v1
-   ```
+### 3. Apply Migrations
 
-3. Open `index.html` in your browser, or launch it using Live Server in VS Code for the best development experience.
+Open the Package Manager Console in Visual Studio and run:
 
----
+```
+Update-Database
+```
 
-## Screenshots
+### 4. Configure Supabase (Optional)
 
-> Screenshots will be added in an upcoming update.
+If cloud sync is required, update the Supabase URL and anon key in the application configuration to point to your project instance.
 
----
+### 5. Build and Run
 
-## Planned Improvements (v2)
-
-- Backend integration with Node.js, Express, and MySQL
-- User authentication and role-based access control
-- Supplier and purchase order management
-- PDF report generation
-- Barcode scanner support
-- Cloud database synchronization
+Open `Inventory.sln` in Visual Studio 2022 and press `F5` to build and run the application.
 
 ---
 
-## Author
+## Default Credentials
 
-**Edge G. Gonzaga**  
-BS Computer Science — STI West Negros University, Class of 2026
+```
+Username: admin
+Password: admin123
+```
 
-- GitHub: [PhsMessi](https://github.com/PhsMessi)
+> It is recommended to update the credentials before deploying in a production environment.
+
+---
+
+## NuGet Packages
+
+| Package | Version |
+|---|---|
+| Microsoft.EntityFrameworkCore.SqlServer | 8.0.25 |
+| Microsoft.EntityFrameworkCore.Tools | 8.0.25 |
+| Supabase | 1.1.1 |
+
+---
+
+## Equipment Categories
+
+- Camera
+- DVR
+- NVR
+- POE
+- HDD
+- Adaptor
+
+---
+
+## Roadmap
+
+- Wire all UI pages to the local SQL Server database via EF Core
+- Implement Supabase cloud sync layer
+- Staff management module
 
 ---
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is for internal use only.
